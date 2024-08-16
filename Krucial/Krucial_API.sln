@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krucial", "Krucial\Krucial.csproj", "{E3E69B29-4C0A-42E4-9B3D-B614F8EAE6C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krucial_API", "Krucial\Krucial_API.csproj", "{E3E69B29-4C0A-42E4-9B3D-B614F8EAE6C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
