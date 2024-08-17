@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Krucial_API.Models;
+namespace Krucial_API.Models.Dto;
 
-public class MenuItem
+public class ProductUpdateDTO
 {
     [Key]
     public int Id { get; set; }
@@ -13,6 +13,5 @@ public class MenuItem
     public string Category { get; set; }
     [Range(1, int.MaxValue)]
     public double Price { get; set; }
-    [Required]
-    public string Image { get; set; }
+    public IFormFile File { get; set; }
 }

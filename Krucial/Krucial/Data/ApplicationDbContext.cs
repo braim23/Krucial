@@ -10,12 +10,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-    public DbSet<MenuItem> MenuItems { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.Entity<MenuItem>().HasData(new MenuItem
+        builder.Entity<Product>().HasData(new Product
         {
             Id = 1,
             Name = "Spring Roll",
@@ -24,7 +24,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 7.99,
             Category = "Appetizer",
             SpecialTag = ""
-        }, new MenuItem
+        }, new Product
         {
             Id = 2,
             Name = "Idli",
@@ -33,7 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 8.99,
             Category = "Appetizer",
             SpecialTag = ""
-        }, new MenuItem
+        }, new Product
         {
             Id = 3,
             Name = "Panu Puri",
@@ -42,7 +42,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 8.99,
             Category = "Appetizer",
             SpecialTag = "Best Seller"
-        }, new MenuItem
+        }, new Product
         {
             Id = 4,
             Name = "Hakka Noodles",
@@ -51,7 +51,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 10.99,
             Category = "Entrée",
             SpecialTag = ""
-        }, new MenuItem
+        }, new Product
         {
             Id = 5,
             Name = "Malai Kofta",
@@ -60,7 +60,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 12.99,
             Category = "Entrée",
             SpecialTag = "Top Rated"
-        }, new MenuItem
+        }, new Product
         {
             Id = 6,
             Name = "Paneer Pizza",
@@ -69,7 +69,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 11.99,
             Category = "Entrée",
             SpecialTag = ""
-        }, new MenuItem
+        }, new Product
         {
             Id = 7,
             Name = "Paneer Tikka",
@@ -78,7 +78,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 13.99,
             Category = "Entrée",
             SpecialTag = "Chef's Special"
-        }, new MenuItem
+        }, new Product
         {
             Id = 8,
             Name = "Carrot Love",
@@ -87,7 +87,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 4.99,
             Category = "Dessert",
             SpecialTag = ""
-        }, new MenuItem
+        }, new Product
         {
             Id = 9,
             Name = "Rasmalai",
@@ -96,7 +96,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             Price = 4.99,
             Category = "Dessert",
             SpecialTag = "Chef's Special"
-        }, new MenuItem
+        }, new Product
         {
             Id = 10,
             Name = "Sweet Rolls",
