@@ -37,12 +37,14 @@ public class ProductController : ControllerBase
         if (id == 0)
         {
             _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
             return BadRequest(_response);
         }
         Product product = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
         if (product == null)
         {
-            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.StatusCode = HttpStatusCode.NotFound;
+            _response.IsSuccess = false;
             return NotFound(_response);
         }
         _response.Result = product;
@@ -59,6 +61,8 @@ public class ProductController : ControllerBase
             {
                 if (productCreateDTO.File == null || productCreateDTO.File.Length == 0)
                 {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
                     return BadRequest();
                 }
                 string fileName = $"{Guid.NewGuid()}{Path.GetExtension(productCreateDTO.File.FileName)}";
@@ -104,12 +108,16 @@ public class ProductController : ControllerBase
             {
                 if (productUpdateDTO == null || id != productUpdateDTO.Id)
                 {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
                     return BadRequest();
                 }
 
                 Product productFromDb = await _db.Products.FindAsync(id);
                 if (productFromDb == null)
                 {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
                     return BadRequest();
                 }
                 productFromDb.Name = productUpdateDTO.Name;
@@ -156,12 +164,16 @@ public class ProductController : ControllerBase
         {
             if (id == 0)
             {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
                 return BadRequest();
             }
 
             Product productFromDb = await _db.Products.FindAsync(id);
             if (productFromDb == null)
             {
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.IsSuccess = false;
                 return BadRequest();
             }
 
