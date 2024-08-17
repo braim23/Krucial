@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Krucial_API.Controllers;
 
-[Route("api/MenuItem")]
+[Route("api/Product")]
 [ApiController]
 public class ProductController : ControllerBase
 {
@@ -39,13 +39,13 @@ public class ProductController : ControllerBase
             _response.StatusCode=HttpStatusCode.BadRequest;
             return BadRequest(_response);
         }
-        Product menuItem = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
-        if (menuItem == null)
+        Product product = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
+        if (product == null)
         {
             _response.StatusCode = HttpStatusCode.BadRequest;
             return NotFound(_response);
         }
-        _response.Result = menuItem;
+        _response.Result = product;
         _response.StatusCode = HttpStatusCode.OK;
         return Ok(_response);
     }

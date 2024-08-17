@@ -2,6 +2,7 @@ using Amazon.Runtime;
 using Amazon.S3;
 using Krucial_API.Data;
 using Krucial_API.Models;
+using Krucial_API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
+builder.Services.AddSingleton<IBlobService, BlobService>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllers();
