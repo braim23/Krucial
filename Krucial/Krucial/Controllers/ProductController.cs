@@ -34,9 +34,9 @@ public class ProductController : ControllerBase
     [HttpGet("{id:int}", Name = "GetProduct")]
     public async Task<IActionResult> GetProduct(int id)
     {
-        if(id == 0)
+        if (id == 0)
         {
-            _response.StatusCode=HttpStatusCode.BadRequest;
+            _response.StatusCode = HttpStatusCode.BadRequest;
             return BadRequest(_response);
         }
         Product product = await _db.Products.FirstOrDefaultAsync(x => x.Id == id);
@@ -57,7 +57,8 @@ public class ProductController : ControllerBase
         {
             if (ModelState.IsValid)
             {
-                if(productCreateDTO.File == null || productCreateDTO.File.Length == 0){
+                if (productCreateDTO.File == null || productCreateDTO.File.Length == 0)
+                {
                     return BadRequest();
                 }
                 string fileName = $"{Guid.NewGuid()}{Path.GetExtension(productCreateDTO.File.FileName)}";
@@ -78,13 +79,108 @@ public class ProductController : ControllerBase
 
                 _response.Result = productToCreate;
                 _response.StatusCode = HttpStatusCode.Created;
-                return CreatedAtRoute("GetProduct", new {id= productToCreate.Id} , _response);
+                return CreatedAtRoute("GetProduct", new { id = productToCreate.Id }, _response);
 
             }
             else
             {
                 _response.IsSuccess = false;
             }
+        }
+        catch (Exception ex)
+        {
+            _response.IsSuccess = false;
+            _response.ErrorMessages = new List<string> { ex.ToString() };
+        }
+
+        return _response;
+    }
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<ApiResponse>> UpdateProduct(int id, [FromForm] ProductUpdateDTO productUpdateDTO)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                if (productUpdateDTO == null || id != productUpdateDTO.Id)
+                {
+                    return BadRequest();
+                }
+
+                Product productFromDb = await _db.Products.FindAsync(id);
+                if (productFromDb == null)
+                {
+                    return BadRequest();
+                }
+                productFromDb.Name = productUpdateDTO.Name;
+                productFromDb.Price = productUpdateDTO.Price;
+                productFromDb.Category = productUpdateDTO.Category;
+                productFromDb.SpecialTag = productUpdateDTO.SpecialTag;
+                productFromDb.Description = productUpdateDTO.Description;
+                if (productUpdateDTO.File != null && productUpdateDTO.File.Length > 0)
+                {
+
+                    string fileName = $"{Guid.NewGuid()}{Path.GetExtension(productUpdateDTO.File.FileName)}";
+                    string fileNameWithPrefix = $"images/{fileName}";
+
+                    await _blobServce.DeleteBlob(productFromDb.Image.Split('/').Last(), SD.SD_Storage_Container);
+                    productFromDb.Image = await _blobServce.UploadBlob(fileNameWithPrefix, SD.SD_Storage_Container, productUpdateDTO.File);
+
+                };
+
+
+                _db.Products.Update(productFromDb);
+                _db.SaveChanges();
+
+                _response.StatusCode = HttpStatusCode.NoContent;
+                return Ok(_response);
+
+            }
+            else
+            {
+                _response.IsSuccess = false;
+            }
+        }
+        catch (Exception ex)
+        {
+            _response.IsSuccess = false;
+            _response.ErrorMessages = new List<string> { ex.ToString() };
+        }
+
+        return _response;
+    }
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult<ApiResponse>> DeleteProduct(int id)
+    {
+        try
+        {
+            if (id == 0)
+            {
+                return BadRequest();
+            }
+
+            Product productFromDb = await _db.Products.FindAsync(id);
+            if (productFromDb == null)
+            {
+                return BadRequest();
+            }
+
+            var blobUrl = productFromDb.Image;
+            var blobNameWithQuery = blobUrl.Split('/').Last();
+            var blobName = blobNameWithQuery.Split('?').First();
+
+            var x = blobName;
+
+            // Delete the blob from storage
+            await _blobServce.DeleteBlob(x, SD.SD_Storage_Container);
+
+            // Optionally remove the product from the database
+            _db.Products.Remove(productFromDb);
+            await _db.SaveChangesAsync();
+            _response.StatusCode = HttpStatusCode.NoContent;
+            return Ok(_response);
+
+
         }
         catch (Exception ex)
         {
