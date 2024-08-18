@@ -45,7 +45,7 @@ public class AuthController : ControllerBase
             _response.StatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.ErrorMessages.Add("Username or password is incorrect.");
-            return BadRequest();
+            return BadRequest(_response);
         }
 
         // Generate JWT token
