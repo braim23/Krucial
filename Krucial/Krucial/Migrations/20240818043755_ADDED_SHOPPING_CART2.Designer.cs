@@ -4,6 +4,7 @@ using Krucial_API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Krucial_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicaitonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240818043755_ADDED_SHOPPING_CART2")]
+    partial class ADDED_SHOPPING_CART2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
