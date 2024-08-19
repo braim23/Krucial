@@ -2,11 +2,22 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useGetProductByIdQuery } from "../Apis/productApi";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function ProductDetails() {
   const { productId } = useParams();
   const { data, isLoading } = useGetProductByIdQuery(productId);
   const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
+
+  const handleQuantity = (counter: number) =>{
+    let newQuantity = quantity + counter;
+    if(newQuantity == 0){
+      newQuantity = 1;
+    }
+    setQuantity(newQuantity);
+    return;
+  }
 
   return (
     <div className="container pt-4 pt-md-5">
@@ -38,12 +49,16 @@ function ProductDetails() {
               className="pb-2  p-3"
               style={{ border: "1px solid #333", borderRadius: "30px" }}
             >
-              <i
+              <i onClick={() =>{
+                handleQuantity(-1)
+              }}
                 className="bi bi-dash p-1"
                 style={{ fontSize: "25px", cursor: "pointer" }}
               ></i>
-              <span className="h3 mt-3 px-3">XX</span>
-              <i
+              <span className="h3 mt-3 px-3">{quantity}</span>
+              <i onClick={() =>{
+                handleQuantity(+1)
+              }}
                 className="bi bi-plus p-1"
                 style={{ fontSize: "25px", cursor: "pointer" }}
               ></i>
