@@ -55,7 +55,11 @@ function ProductCard(props: Props) {
 
           <div className="text-center">
             <p className="card-title m-0 text-success fs-3">
-              <Link className="text-decoration-none" style={{color: "green"}} to={`/productDetails/${props.product.id}`}>
+              <Link
+                className="text-decoration-none"
+                style={{ color: "green" }}
+                to={`/productDetails/${props.product.id}`}
+              >
                 {props.product.name}
               </Link>
             </p>
