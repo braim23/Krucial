@@ -1,4 +1,4 @@
-import ProductList from "./ProductsList";
+import ProductList from "./ProductList";
 import ProductCard from "./ProductCard";
 
 export {ProductList, ProductCard};
