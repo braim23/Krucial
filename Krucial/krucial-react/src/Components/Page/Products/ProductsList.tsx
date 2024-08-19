@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard";
 function ProductsList() {
   const [products, setProducts] = useState<productModel[]>([]);
   useEffect(() => {
-    fetch("https://localhost:7110/api/Product")
+    fetch("")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
