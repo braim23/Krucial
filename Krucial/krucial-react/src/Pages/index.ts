@@ -1,3 +1,5 @@
-import Home from "./Home"
+import Home from "./Home";
+import NotFound from "./NotFound";
+import ProductDetails from "./ProductDetails";
 
-export {Home}
+export {Home, NotFound, ProductDetails}
