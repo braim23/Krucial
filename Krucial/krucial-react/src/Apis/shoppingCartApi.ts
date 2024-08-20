@@ -18,7 +18,7 @@ const shoppingCartApi = createApi({
     }),
     updateShoppingCart: builder.mutation({
       query: ({ productId, updateQuantityBy, userId }) => ({
-        url: "shoppingCart",
+        url: "shoppingCart/AddOrUpdateItemInCart",
         method: "POST",
         params: {
           productId,
@@ -26,10 +26,11 @@ const shoppingCartApi = createApi({
           userId,
         },
       }),
-      invalidatesTags: ["ShoppingCarts"]
+      invalidatesTags: ["ShoppingCarts"],
     }),
   }),
 });
 
-export const { useGetShoppingCartQuery, useUpdateShoppingCartMutation } = shoppingCartApi;
+export const { useGetShoppingCartQuery, useUpdateShoppingCartMutation } =
+  shoppingCartApi;
 export default shoppingCartApi;
