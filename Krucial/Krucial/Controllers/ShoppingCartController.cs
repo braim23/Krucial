@@ -37,10 +37,15 @@ public class ShoppingCartController : ControllerBase
                 .FirstOrDefault(u => u.UserId == userId);
 
             }
+            if (shoppingCart == null)
+            {
+                shoppingCart = new();
+            }
             if (shoppingCart.CartItems != null && shoppingCart.CartItems.Count > 0)
             {
                 shoppingCart.CartTotal = shoppingCart.CartItems.Sum(u => u.Quantity * u.Product.Price);
             }
+            
             _response.Result = shoppingCart;
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
@@ -59,7 +64,7 @@ public class ShoppingCartController : ControllerBase
     [HttpPost("AddOrUpdateItemInCart")]
     public async Task<ActionResult<ApiResponse>> AddOrUpdateItemInCart(string userId, int productId, int updateQuantityBy)
     {
-        
+
 
         ShoppingCart shoppingCart = _db.ShoppingCarts.Include(u => u.CartItems).FirstOrDefault(u => u.UserId == userId);
         Product product = _db.Products.FirstOrDefault(u => u.Id == productId);
