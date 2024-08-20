@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useGetProductByIdQuery } from "../Apis/productApi";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+//USER ID: 3fd00f67-ff8f-4f01-9ca1-145952b61875
 function ProductDetails() {
   const { productId } = useParams();
   const { data, isLoading } = useGetProductByIdQuery(productId);
