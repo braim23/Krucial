@@ -5,6 +5,7 @@ import ProductCard from "./ProductCard";
 import { useGetProductsQuery } from "../../../Apis/productApi";
 import { useDispatch } from "react-redux";
 import { setProduct } from "../../../Storage/Redux/productSlice";
+import { MainLoader } from "../Common";
 
 function ProductList() {
   // const [products, setProducts] = useState<productModel[]>([]);
@@ -18,7 +19,7 @@ function ProductList() {
   }, [isLoading]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <MainLoader />;
   }
   return (
     <div className="container row ">

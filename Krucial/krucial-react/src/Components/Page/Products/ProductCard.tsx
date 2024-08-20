@@ -1,11 +1,27 @@
 import React from "react";
 import productModel from "../../../Interfaces/productModel";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useUpdateShoppingCartMutation } from "../../../Apis/shoppingCartApi";
+import { MiniLoader } from "../Common";
 
 interface Props {
   product: productModel;
 }
 function ProductCard(props: Props) {
+  const [updateShoppingCart] = useUpdateShoppingCartMutation();
+  const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+  const handleAddToCart = async (productId: number) => {
+    setIsAddingToCart(true);
+    const respone = await updateShoppingCart({
+      productId: productId,
+      updateQuantityBy: 1,
+      userId: "3fd00f67-ff8f-4f01-9ca1-145952b61875",
+    });
+
+    setIsAddingToCart(false);
+  };
+
   return (
     <div className="col-md-4 col-12 p-4">
       <div
@@ -39,19 +55,27 @@ function ProductCard(props: Props) {
               &nbsp; {props.product.specialTag}
             </i>
           )}
-
-          <i
-            className="bi bi-cart-plus btn btn-outline-danger"
-            style={{
-              position: "absolute",
-              top: "15px",
-              right: "15px",
-              padding: "5px 10px",
-              borderRadius: "3px",
-              outline: "none !important",
-              cursor: "pointer",
-            }}
-          ></i>
+          {isAddingToCart ? (
+            <div
+              style={{ position: "absolute", top: "15px", right: "15px" }}
+            >
+              <MiniLoader />
+            </div>
+          ) : (
+            <i
+              className="bi bi-cart-plus btn btn-outline-danger"
+              style={{
+                position: "absolute",
+                top: "15px",
+                right: "15px",
+                padding: "5px 10px",
+                borderRadius: "3px",
+                outline: "none !important",
+                cursor: "pointer",
+              }}
+              onClick={() => handleAddToCart(props.product.id)}
+            ></i>
+          )}
 
           <div className="text-center">
             <p className="card-title m-0 text-success fs-3">
