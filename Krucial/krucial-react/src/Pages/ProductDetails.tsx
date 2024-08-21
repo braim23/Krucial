@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useUpdateShoppingCartMutation } from "../Apis/shoppingCartApi";
 import { MainLoader } from "../Components/Page/Common";
+import { apiResponse } from "../Apis";
+import { toastNotify } from "../Helper";
 //USER ID: 3fd00f67-ff8f-4f01-9ca1-145952b61875
 function ProductDetails() {
   const { productId } = useParams();
@@ -25,12 +27,15 @@ function ProductDetails() {
 
   const handleAddToCart = async (productId: number) => {
     setIsAddingToCart(true);
-    const respone = await updateShoppingCart({
+    const respone: apiResponse = await updateShoppingCart({
       productId: productId,
       updateQuantityBy: quantity,
       userId: "3fd00f67-ff8f-4f01-9ca1-145952b61875",
     });
-    console.log(respone);
+
+    if (respone.data && respone.data.isSuccess) {
+      toastNotify("Item added to cart successfully!");
+    }
 
     setIsAddingToCart(false);
   };

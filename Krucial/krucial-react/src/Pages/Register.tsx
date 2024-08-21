@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { SD_Roles } from "../Utilitiy/SD";
-import { inputHelper } from "../Helper";
+import { inputHelper, toastNotify } from "../Helper";
 import { useRegisterUserMutation } from "../Apis/authApi";
 import { apiResponse } from "../Apis";
+import { error } from "console";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [registerUser] = useRegisterUserMutation();
@@ -13,6 +15,8 @@ function Register() {
     role: "",
     fullName: "",
   });
+
+  const navigate = useNavigate();
 
   const handleUserInput = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -32,9 +36,10 @@ function Register() {
     });
 
     if (response.data) {
-      console.log(response.data);
+      toastNotify("User registerd successfully!");
+      navigate("/login");
     } else if (response.error) {
-      console.log(response.error.data.errorMessages[0]);
+      toastNotify(response.error.data.errorMessages[0], "error");
     }
 
     setLoading(false);
@@ -61,7 +66,7 @@ function Register() {
               className="form-control"
               placeholder="Enter Name"
               required
-              name="name"
+              name="fullName"
               value={userInput.fullName}
               onChange={handleUserInput}
             />
