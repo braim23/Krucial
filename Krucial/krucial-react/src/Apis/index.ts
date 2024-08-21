@@ -2,5 +2,6 @@ import productApi from "./productApi";
 import shoppingCartApi from "./shoppingCartApi";
 import authApi from "./authApi";
 import apiResponse from "./apiResponse";
-export { productApi, shoppingCartApi, authApi };    export type { apiResponse };
-
+import paymentApi from "./paymentApi";
+export { productApi, shoppingCartApi, authApi, paymentApi };
+export type { apiResponse };
