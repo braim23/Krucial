@@ -60,7 +60,7 @@ public class AuthController : ControllerBase
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim("fullname", userFromDb.Name),
+                new Claim("fullName", userFromDb.Name),
                 new Claim("id", userFromDb.Id.ToString()),
                 new Claim(ClaimTypes.Email, userFromDb.UserName.ToString()),
                 new Claim(ClaimTypes.Role, roles.FirstOrDefault()),

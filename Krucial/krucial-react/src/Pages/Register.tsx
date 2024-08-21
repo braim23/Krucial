@@ -11,7 +11,7 @@ function Register() {
     userName: "",
     password: "",
     role: "",
-    name: "",
+    fullName: "",
   });
 
   const handleUserInput = (
@@ -28,7 +28,7 @@ function Register() {
       userName: userInput.userName,
       password: userInput.password,
       role: userInput.role,
-      name: userInput.name,
+      name: userInput.fullName,
     });
 
     if (response.data) {
@@ -62,7 +62,7 @@ function Register() {
               placeholder="Enter Name"
               required
               name="name"
-              value={userInput.name}
+              value={userInput.fullName}
               onChange={handleUserInput}
             />
           </div>

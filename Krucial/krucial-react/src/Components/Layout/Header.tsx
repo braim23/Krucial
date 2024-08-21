@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { cartItemModel } from "../../Interfaces/Index";
+import { cartItemModel, userModel } from "../../Interfaces/Index";
 import { useSelector, UseSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "../../Storage/Redux/store";
 
@@ -9,6 +9,13 @@ function Header() {
   const shoppingCartFromStore: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
+  const userData: userModel = useSelector(
+    (state: RootState) => state.authStore
+  );
+  const x = useSelector((state: RootState)=> state.authStore.fullName);
+  console.log("USERNAME:", x );
+  
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -75,33 +82,55 @@ function Header() {
                 </ul>
               </li>
               <div className="d-flex" style={{ marginLeft: "auto" }}>
-                <li className="nav-item">
-                  <button
-                    className="btn btn-success btn-outlined rounded-pill text-white mx-2"
-                    style={{
-                      border: "none",
-                      height: "40px",
-                      width: "100px",
-                    }}
-                  >
-                    Logout
-                  </button>
-                </li>
-                <li className="nav-item text-white">
-                  <NavLink className="nav-link" to="/register">
-                    Register
-                  </NavLink>
-                </li>
-                <li className="nav-item text-white">
-                  <NavLink className="btn btn-success btn-outlined rounded-pill text-white mx-2"
-                    style={{
-                      border: "none",
-                      height: "40px",
-                      width: "100px",
-                    }} to="/login">
-                    Login
-                  </NavLink>
-                </li>
+                {userData.id && (
+                  <>
+                    <li className="nav-item">
+                      <button
+                        className="nav-link active"
+                        style={{
+                          cursor: "pointer",
+                          background: "transparent",
+                          border: "0",
+                        }}
+                      >Welcome, {userData.fullName}</button>
+                    </li>
+                    <li className="nav-item">
+                      <button
+                        className="btn btn-success btn-outlined rounded-pill text-white mx-2"
+                        style={{
+                          border: "none",
+                          height: "40px",
+                          width: "100px",
+                        }}
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </>
+                )}
+
+                {!userData.id && (
+                  <>
+                    <li className="nav-item text-white">
+                      <NavLink className="nav-link" to="/register">
+                        Register
+                      </NavLink>
+                    </li>
+                    <li className="nav-item text-white">
+                      <NavLink
+                        className="btn btn-success btn-outlined rounded-pill text-white mx-2"
+                        style={{
+                          border: "none",
+                          height: "40px",
+                          width: "100px",
+                        }}
+                        to="/login"
+                      >
+                        Login
+                      </NavLink>
+                    </li>
+                  </>
+                )}
               </div>
             </ul>
           </div>
