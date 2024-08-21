@@ -56,9 +56,7 @@ function Header() {
                   to="/ShoppingCart"
                 >
                   <i className="bi bi-cart"></i>
-                  {shoppingCartFromStore?.length
-                    ? `(${shoppingCartFromStore.length})`
-                    : ""}
+                  {userData.id && `(${shoppingCartFromStore.length})`}
                 </NavLink>
               </li>
               <li className="nav-item">
@@ -80,7 +78,6 @@ function Header() {
                 </NavLink>
               </li>
 
-              
               <li className="nav-item dropdown">
                 <a
                   className="nav-link dropdown-toggle"

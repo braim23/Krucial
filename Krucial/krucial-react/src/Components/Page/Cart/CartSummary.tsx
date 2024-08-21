@@ -8,12 +8,16 @@ import {
   updateQuantity,
 } from "../../../Storage/Redux/shoppingCartSlice";
 import { useUpdateShoppingCartMutation } from "../../../Apis/shoppingCartApi";
+import { userModel } from "../../../Interfaces/Index";
 
 function CartSummary() {
   const dispatch = useDispatch();
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
   const shoppingCartFromStore: cartItemModel[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
+  );
+  const userData: userModel = useSelector(
+    (state: RootState) => state.authStore
   );
   if (!shoppingCartFromStore) {
     return <div>Empty Cart</div>;
@@ -30,14 +34,14 @@ function CartSummary() {
       updateShoppingCart({
         productId: cartItem.product?.id,
         updateQuantityBy: 0,
-        userId: "3fd00f67-ff8f-4f01-9ca1-145952b61875",
+        userId: userData.id,
       });
       dispatch(removeFromCart({ cartItem, quantity: 0 }));
     } else {
       updateShoppingCart({
         productId: cartItem.product?.id,
         updateQuantityBy:  updateQuantityBy,
-        userId: "3fd00f67-ff8f-4f01-9ca1-145952b61875",
+        userId: userData.id,
       });
       dispatch(
         updateQuantity({

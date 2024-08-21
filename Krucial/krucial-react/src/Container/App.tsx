@@ -13,16 +13,20 @@ import {
 } from "../Pages";
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useGetShoppingCartQuery } from "../Apis/shoppingCartApi";
 import { setShoppingCart } from "../Storage/Redux/shoppingCartSlice";
 import { userModel } from "../Interfaces/Index";
 import jwt_decode from "jwt-decode";
 import { setLoggedInUser } from "../Storage/Redux/authSlice";
+import { RootState } from "../Storage/Redux/store";
 function App() {
   const dispatch = useDispatch();
+  const userData: userModel = useSelector(
+    (state: RootState) => state.authStore
+  );
   const { data, isLoading } = useGetShoppingCartQuery(
-    "3fd00f67-ff8f-4f01-9ca1-145952b61875"
+    userData.id
   );
 
   useEffect(() => {

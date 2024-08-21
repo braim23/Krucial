@@ -7,7 +7,11 @@ import { useUpdateShoppingCartMutation } from "../Apis/shoppingCartApi";
 import { MainLoader } from "../Components/Page/Common";
 import { apiResponse } from "../Apis";
 import { toastNotify } from "../Helper";
-//USER ID: 3fd00f67-ff8f-4f01-9ca1-145952b61875
+import { userModel } from "../Interfaces/Index";
+import { useSelector } from "react-redux";
+import { RootState } from "../Storage/Redux/store";
+
+
 function ProductDetails() {
   const { productId } = useParams();
   const { data, isLoading } = useGetProductByIdQuery(productId);
@@ -15,6 +19,9 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
+  const userData: userModel = useSelector(
+    (state: RootState) => state.authStore
+  );
 
   const handleQuantity = (counter: number) => {
     let newQuantity = quantity + counter;
@@ -26,11 +33,15 @@ function ProductDetails() {
   };
 
   const handleAddToCart = async (productId: number) => {
+    if (!userData.id) {
+      navigate("/login");
+      return;
+    }
     setIsAddingToCart(true);
     const respone: apiResponse = await updateShoppingCart({
       productId: productId,
       updateQuantityBy: quantity,
-      userId: "3fd00f67-ff8f-4f01-9ca1-145952b61875",
+      userId: userData.id,
     });
 
     if (respone.data && respone.data.isSuccess) {

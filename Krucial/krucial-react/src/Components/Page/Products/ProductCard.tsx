@@ -1,24 +1,37 @@
 import React from "react";
 import productModel from "../../../Interfaces/productModel";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useUpdateShoppingCartMutation } from "../../../Apis/shoppingCartApi";
 import { MiniLoader } from "../Common";
 import { apiResponse } from "../../../Apis";
 import toastNotify from "../../../Helper/toastNofity";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../Storage/Redux/store";
+import userModel from "../../../Interfaces/userModel";
 
 interface Props {
   product: productModel;
 }
 function ProductCard(props: Props) {
+  const navigate = useNavigate();
   const [updateShoppingCart] = useUpdateShoppingCartMutation();
   const [isAddingToCart, setIsAddingToCart] = useState<boolean>(false);
+
+  const userData: userModel = useSelector(
+    (state: RootState) => state.authStore
+  );
+
   const handleAddToCart = async (productId: number) => {
+    if (!userData.id) {
+      navigate("/login");
+      return;
+    }
     setIsAddingToCart(true);
     const respone: apiResponse = await updateShoppingCart({
       productId: productId,
       updateQuantityBy: 1,
-      userId: "3fd00f67-ff8f-4f01-9ca1-145952b61875",
+      userId: userData.id,
     });
 
     if (respone.data && respone.data.isSuccess) {
