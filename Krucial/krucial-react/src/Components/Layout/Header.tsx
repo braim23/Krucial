@@ -12,8 +12,9 @@ function Header() {
   const userData: userModel = useSelector(
     (state: RootState) => state.authStore
   );
-  const x = useSelector((state: RootState)=> state.authStore.fullName);
-  console.log("USERNAME:", x );
+
+  
+  
   
 
   return (

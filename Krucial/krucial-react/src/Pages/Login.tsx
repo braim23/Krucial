@@ -34,12 +34,10 @@ function Login() {
     });
 
     if (response.data) {
-      console.log(response.data.result);
       
 
       const { token } = response.data.result;
       localStorage.setItem("token", token);
-      console.log(token);
 
 
       const { fullName, id, email, role }: userModel = jwt_decode(token);
@@ -51,7 +49,6 @@ function Login() {
           role,
         })
       );
-      console.log(fullName, id, email, role);
       
       navigate("/");
     } else if (response.error) {
