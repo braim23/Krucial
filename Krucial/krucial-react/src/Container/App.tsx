@@ -7,6 +7,7 @@ import {
   Home,
   Login,
   NotFound,
+  Payment,
   ProductDetails,
   Register,
   ShoppingCart,
@@ -25,9 +26,7 @@ function App() {
   const userData: userModel = useSelector(
     (state: RootState) => state.authStore
   );
-  const { data, isLoading } = useGetShoppingCartQuery(
-    userData.id
-  );
+  const { data, isLoading } = useGetShoppingCartQuery(userData.id);
 
   useEffect(() => {
     const localToken = localStorage.getItem("token");
@@ -64,15 +63,17 @@ function App() {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
 
-
-
-          <Route path="/authentication" element={<AuthenticationTest />}></Route>
-          <Route path="/authorization" element={<AuthenticationTestAdmin />}></Route>
+          <Route
+            path="/authentication"
+            element={<AuthenticationTest />}
+          ></Route>
+          <Route
+            path="/authorization"
+            element={<AuthenticationTestAdmin />}
+          ></Route>
           <Route path="/accessDenied" element={<AccessDenied />}></Route>
 
-
-
-
+          <Route path="/payment" element={<Payment />}></Route>
 
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

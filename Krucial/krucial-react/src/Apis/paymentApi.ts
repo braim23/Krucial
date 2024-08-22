@@ -6,7 +6,7 @@ const paymentApi = createApi({
     baseUrl: "https://localhost:7110/api/",
   }),
   endpoints: (builder) => ({
-    initialPayment: builder.mutation({
+    initiatePayment: builder.mutation({
       query: (userId) => ({
         url: "payment",
         method: "POST",
@@ -18,5 +18,5 @@ const paymentApi = createApi({
   }),
 });
 
-export const { useGetProductsQuery, useGetProductByIdQuery } = paymentApi;
+export const { useInitiatePaymentMutation } = paymentApi;
 export default paymentApi;
