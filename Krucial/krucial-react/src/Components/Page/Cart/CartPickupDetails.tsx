@@ -39,13 +39,9 @@ function CartPickupDetails() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-
     const { data }: apiResponse = await initialPayment(userData.id);
-    const orderSummary = { grandTotal, totalItems };
-    console.log(data);
-
     navigate("/payment", {
-      state: { apiResult: data?.result, userData, orderSummary },
+      state: { apiResult: data?.result, userInput },
     });
   };
 
