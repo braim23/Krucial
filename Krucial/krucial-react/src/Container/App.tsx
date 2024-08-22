@@ -7,6 +7,7 @@ import {
   Home,
   Login,
   NotFound,
+  OrderConfirmed,
   Payment,
   ProductDetails,
   Register,
@@ -74,6 +75,11 @@ function App() {
           <Route path="/accessDenied" element={<AccessDenied />}></Route>
 
           <Route path="/payment" element={<Payment />}></Route>
+
+          <Route
+            path="order/orderConfirmed/:id"
+            element={<OrderConfirmed />}
+          ></Route>
 
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

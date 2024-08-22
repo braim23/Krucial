@@ -10,13 +10,14 @@ import cartItemModel from "../../../Interfaces/cartItemModel";
 import { useCreateOrderMutation } from "../../../Apis/orderApi";
 import { apiResponse } from "../../../Apis";
 import { SD_Status } from "../../../Utilitiy/SD";
+import { useNavigate } from "react-router-dom";
 
 const PaymentForm = ({ data, userInput }: orderSummaryProps) => {
+  const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
   const [createOrder] = useCreateOrderMutation();
   const [isProcessing, setIsProcessing] = useState(false);
-  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     // We don't want to let default form submission happen here,
@@ -77,8 +78,6 @@ const PaymentForm = ({ data, userInput }: orderSummaryProps) => {
         orderDetailsDTO.push(tempOrderDetail);
         grandTotal += item.quantity! * item.product?.price!;
         totalItems += item.quantity!;
-        console.log("HERE: ",item);
-        
       });
 
       const respone: apiResponse = await createOrder({
@@ -96,17 +95,35 @@ const PaymentForm = ({ data, userInput }: orderSummaryProps) => {
             : SD_Status.PENDING,
       });
 
-      console.log(respone);
+      console.log("HERE: ", respone.data?.result);
+
+      if (respone) {
+        if (respone.data?.result.status === SD_Status.COMPLETED) {
+          navigate(
+            `/order/orderConfirmed/${respone.data.result.orderHeaderId}`
+          );
+        } else {
+          navigate("/failed");
+        }
+      }
 
       // Your customer will be redirected to your `return_url`. For some payment
       // methods like iDEAL, your customer will be redirected to an intermediate
       // site first to authorize the payment, then redirected to the `return_url`.
     }
+    setIsProcessing(false);
   };
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />
-      <button className="btn btn-success mt-5 w-100">Submit</button>
+      <button
+        disabled={!stripe || isProcessing}
+        className="btn btn-success mt-5 w-100"
+      >
+        <span id="button-text">
+          {isProcessing ? "Processing ..." : "Submit Order"}
+        </span>
+      </button>
     </form>
   );
 };
