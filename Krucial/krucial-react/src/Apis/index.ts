@@ -3,5 +3,6 @@ import shoppingCartApi from "./shoppingCartApi";
 import authApi from "./authApi";
 import apiResponse from "./apiResponse";
 import paymentApi from "./paymentApi";
-export { productApi, shoppingCartApi, authApi, paymentApi };
+import orderApi from "./orderApi";
+export { productApi, shoppingCartApi, authApi, paymentApi, orderApi };
 export type { apiResponse };
