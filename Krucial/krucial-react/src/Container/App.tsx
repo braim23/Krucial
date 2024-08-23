@@ -6,6 +6,7 @@ import {
   AuthenticationTestAdmin,
   Home,
   Login,
+  MyOrder,
   NotFound,
   OrderConfirmed,
   Payment,
@@ -80,6 +81,7 @@ function App() {
             path="order/orderConfirmed/:id"
             element={<OrderConfirmed />}
           ></Route>
+          <Route path="order/myOrders" element={<MyOrder />}></Route>
 
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
