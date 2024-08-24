@@ -42,7 +42,6 @@ const PaymentForm = ({ data, userInput }: orderSummaryProps) => {
 
     if (result.error) {
       // Show error to your customer (for example, payment details incomplete)
-      console.log(result.error.message);
       toastNotify("An unexpected error occured.", "error");
       setIsProcessing(false);
     } else {
@@ -95,7 +94,6 @@ const PaymentForm = ({ data, userInput }: orderSummaryProps) => {
             : SD_Status.PENDING,
       });
 
-      console.log("HERE: ", respone.data?.result);
 
       if (respone) {
         if (respone.data?.result.status === SD_Status.COMPLETED) {
