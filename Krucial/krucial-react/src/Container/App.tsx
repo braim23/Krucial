@@ -9,6 +9,7 @@ import {
   MyOrder,
   NotFound,
   OrderConfirmed,
+  OrderDetails,
   Payment,
   ProductDetails,
   Register,
@@ -82,6 +83,7 @@ function App() {
             element={<OrderConfirmed />}
           ></Route>
           <Route path="order/myOrders" element={<MyOrder />}></Route>
+          <Route path="order/orderDetails/:id" element={<OrderDetails />}></Route>
 
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

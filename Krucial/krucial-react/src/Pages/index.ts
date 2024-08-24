@@ -10,7 +10,9 @@ import AccessDenied from "./AccessDenied";
 import Payment from "./Payment";
 import OrderConfirmed from "./Order/OrderConfirmed";
 import MyOrder from "./Order/MyOrder";
+import OrderDetails from "./Order/OrderDetails";
 export {
+  OrderDetails,
   Home,
   NotFound,
   ProductDetails,

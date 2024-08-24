@@ -9,7 +9,6 @@ import { MainLoader } from "../../Components/Page/Common";
 function MyOrder() {
   const userId = useSelector((state: RootState) => state.authStore.id);
   const { data, isLoading } = useGetAllOrdersQuery(userId);
-  console.log(data);
 
   return (
     <>

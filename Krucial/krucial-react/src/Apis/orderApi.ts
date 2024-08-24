@@ -29,7 +29,7 @@ const orderApi = createApi({
     }),
     getOrderDetails: builder.query({
       query: (id) => ({
-        url: `product/${id}`,
+        url: `order/${id}`,
       }),
       providesTags: ["Orders"],
     }),
