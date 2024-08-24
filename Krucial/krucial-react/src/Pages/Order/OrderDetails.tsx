@@ -31,7 +31,7 @@ function OrderDetails() {
       {!isLoading && orderDetails && userInput && (
         <OrderSummary data={orderDetails} userInput={userInput} />
       )}
-      OrderDetails
+      
     </div>
   );
 }

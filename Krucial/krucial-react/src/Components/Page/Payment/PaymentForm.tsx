@@ -90,13 +90,13 @@ const PaymentForm = ({ data, userInput }: orderSummaryProps) => {
         applicationUserId: data.userId,
         status:
           result.paymentIntent.status === "succeeded"
-            ? SD_Status.COMPLETED
+            ? SD_Status.CONFIRMED
             : SD_Status.PENDING,
       });
 
 
       if (respone) {
-        if (respone.data?.result.status === SD_Status.COMPLETED) {
+        if (respone.data?.result.status === SD_Status.CONFIRMED) {
           navigate(
             `/order/orderConfirmed/${respone.data.result.orderHeaderId}`
           );
