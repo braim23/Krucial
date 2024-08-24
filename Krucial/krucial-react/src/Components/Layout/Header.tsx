@@ -4,6 +4,7 @@ import { useSelector, UseSelector } from "react-redux/es/hooks/useSelector";
 import { RootState } from "../../Storage/Redux/store";
 import { useDispatch } from "react-redux";
 import { emptyUserState, setLoggedInUser } from "../../Storage/Redux/authSlice";
+import { SD_Roles } from "../../Utilitiy/SD";
 
 let logo = require("../../Assets/Images/mango.png");
 
@@ -49,6 +50,47 @@ function Header() {
                   Home
                 </NavLink>
               </li>
+              {userData.role == SD_Roles.ADMIN ? (
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Admin Panel
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Action
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Another action
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Something else here
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    aria-current="page"
+                    to="/order/myOrders"
+                  >
+                    Orders
+                  </NavLink>
+                </li>
+              )}
+
               <li className="nav-item">
                 <NavLink
                   className="nav-link"
@@ -58,62 +100,6 @@ function Header() {
                   <i className="bi bi-cart"></i>
                   {userData.id && `(${shoppingCartFromStore.length})`}
                 </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link"
-                  aria-current="page"
-                  to="/order/myOrders"
-                >
-                  Orders
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link"
-                  aria-current="page"
-                  to="/authentication"
-                >
-                  Authentication
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link"
-                  aria-current="page"
-                  to="/authorization"
-                >
-                  Authorization
-                </NavLink>
-              </li>
-
-              <li className="nav-item dropdown">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Admin Panel
-                </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Another action
-                    </a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" href="#">
-                      Something else here
-                    </a>
-                  </li>
-                </ul>
               </li>
               <div className="d-flex" style={{ marginLeft: "auto" }}>
                 {userData.id && (
