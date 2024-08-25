@@ -2,9 +2,11 @@ import React from "react";
 import { useGetProductsQuery } from "../../Apis/productApi";
 import { MainLoader } from "../../Components/Page/Common";
 import productModel from "../../Interfaces/productModel";
+import { useNavigate } from "react-router-dom";
 
 function ProductList() {
   const { data, isLoading } = useGetProductsQuery(null);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -41,7 +43,12 @@ function ProductList() {
                   <div className="col-1">${product.price}</div>
                   <div className="col-2">{product.specialTag}</div>
                   <div className="col-1">
-                    <button className="btn btn-success">
+                    <button
+                      className="btn btn-success"
+                      onClick={() =>
+                        navigate(`/product/ProductUpsert/`+product.id)
+                      }
+                    >
                       <i className="bi bi-pencil-fill"></i>
                     </button>
                     <button className="btn btn-danger mx-2">

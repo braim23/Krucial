@@ -13,7 +13,9 @@ import MyOrder from "./Order/MyOrder";
 import OrderDetails from "./Order/OrderDetails";
 import AllOrders from "./Order/AllOrders";
 import ProductList from "./Product/ProductList";
+import ProductUpsert from "./Product/ProductUpsert"
 export {
+  ProductUpsert,
   ProductList,
   AllOrders,
   OrderDetails,

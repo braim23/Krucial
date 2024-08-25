@@ -17,6 +17,7 @@ import {
   Register,
   ShoppingCart,
 } from "../Pages";
+import { ProductUpsert } from "../Pages";
 import { Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,10 +85,17 @@ function App() {
             path="order/orderConfirmed/:id"
             element={<OrderConfirmed />}
           ></Route>
-          <Route path="order/myOrders" element={<MyOrder />}></Route>
-          <Route path="order/orderDetails/:id" element={<OrderDetails />}></Route>
-          <Route path="order/allOrders" element={<AllOrders />}></Route>
-          <Route path="product/productList" element={<ProductList />}></Route>
+          <Route path="/order/myOrders" element={<MyOrder />}></Route>
+          <Route
+            path="/order/orderDetails/:id"
+            element={<OrderDetails />}
+          ></Route>
+          <Route path="/order/allOrders" element={<AllOrders />}></Route>
+          <Route path="/product/productList" element={<ProductList />}></Route>
+          <Route
+            path="/product/ProductUpsert/:id"
+            element={<ProductUpsert />}
+          ></Route>
 
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
