@@ -15,7 +15,12 @@ function ProductList() {
         <div className="table p-5">
           <div className="d-flex align-items-center justify-content-between">
             <h1 className="text-success">Product List</h1>
-            <button className="btn btn-success">Add New</button>
+            <button
+              className="btn btn-success"
+              onClick={() => navigate(`/product/productUpsert/`)}
+            >
+              Add New
+            </button>
           </div>
           <div className="p-2">
             <div className="row border">
@@ -46,7 +51,7 @@ function ProductList() {
                     <button
                       className="btn btn-success"
                       onClick={() =>
-                        navigate(`/product/ProductUpsert/`+product.id)
+                        navigate(`/product/productUpsert/` + product.id)
                       }
                     >
                       <i className="bi bi-pencil-fill"></i>
