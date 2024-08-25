@@ -12,7 +12,9 @@ import OrderConfirmed from "./Order/OrderConfirmed";
 import MyOrder from "./Order/MyOrder";
 import OrderDetails from "./Order/OrderDetails";
 import AllOrders from "./Order/AllOrders";
+import ProductList from "./Product/ProductList";
 export {
+  ProductList,
   AllOrders,
   OrderDetails,
   Home,

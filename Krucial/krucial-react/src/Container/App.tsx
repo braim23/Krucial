@@ -13,6 +13,7 @@ import {
   OrderDetails,
   Payment,
   ProductDetails,
+  ProductList,
   Register,
   ShoppingCart,
 } from "../Pages";
@@ -86,6 +87,7 @@ function App() {
           <Route path="order/myOrders" element={<MyOrder />}></Route>
           <Route path="order/orderDetails/:id" element={<OrderDetails />}></Route>
           <Route path="order/allOrders" element={<AllOrders />}></Route>
+          <Route path="product/productList" element={<ProductList />}></Route>
 
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
