@@ -11,3 +11,10 @@ export enum SD_Status {
   COMPLETED = "Completed",
   CANCELLED = "Cancelled",
 }
+
+export enum SD_Categories {
+  KEYBOARD = "Keyboard",
+  MOUSE = "Mouse",
+  MOUSEPAD = "Mousepad",
+  OTHER = "Other",
+}

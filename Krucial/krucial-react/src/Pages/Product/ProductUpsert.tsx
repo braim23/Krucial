@@ -7,14 +7,23 @@ import {
 } from "../../Apis/productApi";
 import { useNavigate, useParams } from "react-router-dom";
 import { MainLoader } from "../../Components/Page/Common";
+import { SD_Categories } from "../../Utilitiy/SD";
+
+const Categories = [
+  SD_Categories.KEYBOARD,
+  SD_Categories.MOUSE,
+  SD_Categories.MOUSEPAD,
+  SD_Categories.OTHER,
+];
 
 const productData = {
   name: "",
   description: "",
   specialTag: "",
-  category: "",
+  category: Categories[0],
   price: "",
 };
+
 function ProductUpsert() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -89,7 +98,7 @@ function ProductUpsert() {
 
     formData.append("Name", productInputs.name);
     formData.append("Description", productInputs.description);
-    formData.append("SpecialTag", productInputs.specialTag);
+    formData.append("SpecialTag", productInputs.specialTag ?? ""); //Added empty string if null so it dont send null to the database
     formData.append("Category", productInputs.category);
     formData.append("Price", productInputs.price);
     if (imageToDisplay) {
@@ -116,7 +125,9 @@ function ProductUpsert() {
   return (
     <div className="container border mt-5 p-5 bg-light">
       {loading && <MainLoader />}
-      <h3 className="px-2 text-success">{id? "Update Product" : "Add Product"}</h3>
+      <h3 className="px-2 text-success">
+        {id ? "Update Product" : "Add Product"}
+      </h3>
       <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="row mt-3">
           <div className="col-md-7 ">
@@ -145,14 +156,21 @@ function ProductUpsert() {
               value={productInputs.specialTag}
               onChange={handleProductInput}
             />
-            <input
-              type="text"
-              className="form-control mt-3"
-              placeholder="Enter Category"
+            <select
+              className="form-control mt-3 form-select"
               name="category"
-              value={productInputs.category}
+              value={Categories.includes(productInputs.category) ? productInputs.category : ""}
               onChange={handleProductInput}
-            />
+            >
+              <option value="" disabled>
+                Enter Category
+              </option>
+              {Categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
             <input
               type="number"
               className="form-control mt-3"
@@ -173,7 +191,7 @@ function ProductUpsert() {
                   type="submit"
                   className="btn btn-success mt-3 form-control"
                 >
-                  {id? "Update" : "Add Product"}
+                  {id ? "Update" : "Add Product"}
                 </button>
               </div>
               <div className="col-6">
