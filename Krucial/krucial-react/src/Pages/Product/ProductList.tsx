@@ -19,7 +19,7 @@ function ProductList() {
               className="btn btn-success"
               onClick={() => navigate(`/product/productUpsert/`)}
             >
-              Add New
+              Add Product
             </button>
           </div>
           <div className="p-2">

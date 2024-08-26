@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { inputHelper, toastNotify } from "../../Helper";
-import { useCreateProductMutation } from "../../Apis/productApi";
-import { useNavigate } from "react-router-dom";
+import {
+  useCreateProductMutation,
+  useGetProductByIdQuery,
+  useUpdateProductMutation,
+} from "../../Apis/productApi";
+import { useNavigate, useParams } from "react-router-dom";
+import { MainLoader } from "../../Components/Page/Common";
 
 const productData = {
   name: "",
@@ -11,12 +16,28 @@ const productData = {
   price: "",
 };
 function ProductUpsert() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [imageToStore, setImageToStore] = useState<any>();
   const [imageToDisplay, setImageToDisplay] = useState<string>("");
   const [productInputs, setProductInputs] = useState(productData);
   const [loading, setLoading] = useState(false);
   const [createProduct] = useCreateProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
+  const { data } = useGetProductByIdQuery(id);
+  useEffect(() => {
+    if (data && data.result) {
+      const tempdata = {
+        name: data.result.name,
+        description: data.result.description,
+        specialTag: data.result.specialTag,
+        category: data.result.category,
+        price: data.result.price,
+      };
+      setProductInputs(tempdata);
+      setImageToDisplay(data.result.image);
+    }
+  }, [data]);
   const handleProductInput = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -58,7 +79,7 @@ function ProductUpsert() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    if (!imageToStore) {
+    if (!imageToStore && !id) {
       toastNotify("Please upload an image", "error");
       setLoading(false);
       return;
@@ -71,9 +92,20 @@ function ProductUpsert() {
     formData.append("SpecialTag", productInputs.specialTag);
     formData.append("Category", productInputs.category);
     formData.append("Price", productInputs.price);
-    formData.append("File", imageToStore);
+    if (imageToDisplay) {
+      formData.append("File", imageToStore);
+    }
 
-    const response = await createProduct(formData);
+    let response;
+    if (id) {
+      formData.append("Id", id);
+      toastNotify("Product updated successfully!", "success");
+      response = await updateProduct({ data: formData, id });
+    } else {
+      response = await createProduct(formData);
+      toastNotify("Product created successfully!", "success");
+    }
+
     if (response) {
       setLoading(false);
       navigate("/product/productList");
@@ -82,11 +114,12 @@ function ProductUpsert() {
     setLoading(false);
   };
   return (
-    <div className="container border mt-5 p-5">
-      <h3 className="offset-2 px-2 text-success">Add Product</h3>
+    <div className="container border mt-5 p-5 bg-light">
+      {loading && <MainLoader />}
+      <h3 className="px-2 text-success">{id? "Update Product" : "Add Product"}</h3>
       <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="row mt-3">
-          <div className="col-md-5 offset-2">
+          <div className="col-md-7 ">
             <input
               type="text"
               className="form-control"
@@ -134,14 +167,23 @@ function ProductUpsert() {
               onChange={handleFileChange}
               className="form-control mt-3"
             />
-            <div className="text-center">
-              <button
-                type="submit"
-                style={{ width: "50%" }}
-                className="btn btn-success mt-5"
-              >
-                Submit
-              </button>
+            <div className="row">
+              <div className="col-6">
+                <button
+                  type="submit"
+                  className="btn btn-success mt-3 form-control"
+                >
+                  {id? "Update" : "Add Product"}
+                </button>
+              </div>
+              <div className="col-6">
+                <a
+                  onClick={() => navigate("/product/productList")}
+                  className="btn btn-secondary form-control mt-3"
+                >
+                  Back
+                </a>
+              </div>
             </div>
           </div>
           <div className="col-md-5 text-center">
