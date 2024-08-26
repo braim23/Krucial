@@ -40,6 +40,13 @@ function ProductUpsert() {
         toastNotify("File type must be jpg, png or jpeg", "error");
         return;
       }
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      setImageToStore(file);
+      reader.onload = (e) => {
+        const imgUrl = e.target?.result as string;
+        setImageToDisplay(imgUrl);
+      };
     }
   };
   return (
@@ -107,7 +114,7 @@ function ProductUpsert() {
           </div>
           <div className="col-md-5 text-center">
             <img
-              src="https://via.placeholder.com/150"
+              src={imageToDisplay}
               style={{ width: "100%", borderRadius: "30px" }}
               alt=""
             />
