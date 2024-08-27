@@ -10,6 +10,8 @@ import { RootState } from "../../../Storage/Redux/store";
 
 function ProductList() {
   const [products, setProducts] = useState<productModel[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [categoryList, setCategoryList] = useState([""]);
   const dispatch = useDispatch();
   const { data, isLoading } = useGetProductsQuery(null);
 
@@ -28,6 +30,13 @@ function ProductList() {
     if (!isLoading) {
       dispatch(setProduct(data.result));
       setProducts(data.result);
+      const tempCategoryList = ["All"];
+      data.result.forEach((item: productModel) => {
+        if (tempCategoryList.indexOf(item.category) === -1) {
+          tempCategoryList.push(item.category);
+        }
+      });
+      setCategoryList(tempCategoryList);
     }
   }, [isLoading]);
 
@@ -48,6 +57,21 @@ function ProductList() {
   }
   return (
     <div className="container row ">
+      <div className="my-3">
+        <ul className="nav w-100 d-flex justify-content-center">
+          {categoryList.map((categoryName, index) => (
+            <li className="nav-item" key={index}>
+              <button
+                className={`nav-link p-0 pb-2 custom-buttons fs-5 ${
+                  index === 0 && "active"
+                }`}
+              >
+                {categoryName}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
       {products.length > 0 &&
         products.map((product: productModel, index: number) => (
           <ProductCard product={product} key={index} />
