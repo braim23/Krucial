@@ -21,7 +21,7 @@ function ProductList() {
 
   useEffect(() => {
     if (data && data.result) {
-      const tempProductArray = handleFilters(searchValue);
+      const tempProductArray = handleFilters(selectedCategory, searchValue);
       setProducts(tempProductArray);
     }
   }, [searchValue]);
@@ -40,16 +40,42 @@ function ProductList() {
     }
   }, [isLoading]);
 
-  const handleFilters = (search: string) => {
-    let tempProducts = [...data.result];
+  const handleCategoryClick = (i: number) => {
+    const buttons = document.querySelectorAll(".custom-buttons");
+    let localCategory;
+    buttons.forEach((buttons, index) => {
+      if (index === i) {
+        buttons.classList.add("active");
+        if (index === 0) {
+          localCategory = "All";
+        } else {
+          localCategory = categoryList[index];
+        }
+        setSelectedCategory(localCategory);
+        const tempArray = handleFilters(localCategory, searchValue);
+        setProducts(tempArray);
+      } else {
+        buttons.classList.remove("active");
+      }
+    });
+  };
+
+  const handleFilters = (category: string, search: string) => {
+    let tempArray =
+      category === "All"
+        ? [...data.result]
+        : data.result.filter(
+            (item: productModel) =>
+              item.category.toUpperCase() === category.toUpperCase()
+          );
 
     if (search) {
-      const tempSearchProducts = [...tempProducts];
-      tempProducts = tempSearchProducts.filter((item: productModel) =>
+      const tempSearchProducts = [...tempArray];
+      tempArray = tempSearchProducts.filter((item: productModel) =>
         item.name.toUpperCase().includes(search.toUpperCase())
       );
     }
-    return tempProducts;
+    return tempArray;
   };
 
   if (isLoading) {
@@ -65,6 +91,7 @@ function ProductList() {
                 className={`nav-link p-0 pb-2 custom-buttons fs-5 ${
                   index === 0 && "active"
                 }`}
+                onClick={() => handleCategoryClick(index)}
               >
                 {categoryName}
               </button>
