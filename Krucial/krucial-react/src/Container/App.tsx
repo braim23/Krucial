@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Footer, Header } from "../Components/Layout";
 import {
   AccessDenied,
@@ -28,14 +28,11 @@ import jwt_decode from "jwt-decode";
 import { setLoggedInUser } from "../Storage/Redux/authSlice";
 import { RootState } from "../Storage/Redux/store";
 function App() {
-  const [skip, setSkip] = useState(true);
   const dispatch = useDispatch();
   const userData: userModel = useSelector(
     (state: RootState) => state.authStore
   );
-  const { data, isLoading } = useGetShoppingCartQuery(userData.id, {
-    skip: skip,
-  });
+  const { data, isLoading } = useGetShoppingCartQuery(userData.id);
 
   useEffect(() => {
     const localToken = localStorage.getItem("token");
@@ -57,10 +54,6 @@ function App() {
       dispatch(setShoppingCart(data.result?.cartItems));
     }
   }, [data]);
-
-  useEffect(() => {
-    if (userData.id) setSkip(false);
-  }, [userData]);
 
   return (
     <div>
@@ -103,7 +96,7 @@ function App() {
             path="/product/productUpsert/:id"
             element={<ProductUpsert />}
           ></Route>
-          <Route
+           <Route
             path="/product/productUpsert"
             element={<ProductUpsert />}
           ></Route>
