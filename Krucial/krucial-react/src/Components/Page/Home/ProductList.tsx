@@ -7,12 +7,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProduct } from "../../../Storage/Redux/productSlice";
 import { MainLoader } from "../Common";
 import { RootState } from "../../../Storage/Redux/store";
+import { SD_SortTypes } from "../../../Utilitiy/SD";
 
 function ProductList() {
   const [products, setProducts] = useState<productModel[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categoryList, setCategoryList] = useState([""]);
   const dispatch = useDispatch();
+  const [sortName, setSortName] = useState(SD_SortTypes.NAME_A_Z);
+  const sortOptions: Array<SD_SortTypes> = [
+    SD_SortTypes.PRICE_LOW_TO_HIGH,
+    SD_SortTypes.PRICE_HIGH_TO_LOW,
+    SD_SortTypes.NAME_A_Z,
+    SD_SortTypes.NAME_Z_A,
+  ];
   const { data, isLoading } = useGetProductsQuery(null);
 
   const searchValue = useSelector(
@@ -21,7 +29,11 @@ function ProductList() {
 
   useEffect(() => {
     if (data && data.result) {
-      const tempProductArray = handleFilters(selectedCategory, searchValue);
+      const tempProductArray = handleFilters(
+        sortName,
+        selectedCategory,
+        searchValue
+      );
       setProducts(tempProductArray);
     }
   }, [searchValue]);
@@ -40,6 +52,16 @@ function ProductList() {
     }
   }, [isLoading]);
 
+  const handleSortClick = (i: number) => {
+    setSortName(sortOptions[i]);
+    const tempArray = handleFilters(
+      sortOptions[i],
+      selectedCategory,
+      searchValue
+    );
+    setProducts(tempArray);
+  };
+
   const handleCategoryClick = (i: number) => {
     const buttons = document.querySelectorAll(".custom-buttons");
     let localCategory;
@@ -52,7 +74,7 @@ function ProductList() {
           localCategory = categoryList[index];
         }
         setSelectedCategory(localCategory);
-        const tempArray = handleFilters(localCategory, searchValue);
+        const tempArray = handleFilters(sortName, localCategory, searchValue);
         setProducts(tempArray);
       } else {
         buttons.classList.remove("active");
@@ -60,7 +82,11 @@ function ProductList() {
     });
   };
 
-  const handleFilters = (category: string, search: string) => {
+  const handleFilters = (
+    sortType: SD_SortTypes,
+    category: string,
+    search: string
+  ) => {
     let tempArray =
       category === "All"
         ? [...data.result]
@@ -69,12 +95,36 @@ function ProductList() {
               item.category.toUpperCase() === category.toUpperCase()
           );
 
+    //search functionality here
     if (search) {
       const tempSearchProducts = [...tempArray];
       tempArray = tempSearchProducts.filter((item: productModel) =>
         item.name.toUpperCase().includes(search.toUpperCase())
       );
     }
+
+    // sort functionality here
+    if (sortType === SD_SortTypes.PRICE_LOW_TO_HIGH) {
+      tempArray.sort((a: productModel, b: productModel) => a.price - b.price);
+    }
+    if (sortType === SD_SortTypes.PRICE_HIGH_TO_LOW) {
+      tempArray.sort((a: productModel, b: productModel) => b.price - a.price);
+    }
+    if (sortType === SD_SortTypes.NAME_A_Z) {
+      tempArray.sort(
+        (a: productModel, b: productModel) =>
+          a.name.toUpperCase().charCodeAt(0) -
+          b.name.toUpperCase().charCodeAt(0)
+      );
+    }
+    if (sortType === SD_SortTypes.NAME_Z_A) {
+      tempArray.sort(
+        (a: productModel, b: productModel) =>
+          b.name.toUpperCase().charCodeAt(0) -
+          a.name.toUpperCase().charCodeAt(0)
+      );
+    }
+
     return tempArray;
   };
 
@@ -86,7 +136,10 @@ function ProductList() {
       <div className="my-3">
         <ul className="nav w-100 d-flex justify-content-center">
           {categoryList.map((categoryName, index) => (
-            <li className="nav-item" key={index}>
+            <li
+              className="nav-item"
+              key={index}
+            >
               <button
                 className={`nav-link p-0 pb-2 custom-buttons fs-5 ${
                   index === 0 && "active"
@@ -97,6 +150,27 @@ function ProductList() {
               </button>
             </li>
           ))}
+          <li className="nav-item dropdown" style={{ marginLeft: "auto" }}>
+            <div
+              className="nav-link dropdown-toggle text-dark fs-6 border"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {sortName}
+            </div>
+            <ul className="dropdown-menu">
+              {sortOptions.map((sortType, index) => (
+                <li
+                  key={index}
+                  className="dropdown-item"
+                  onClick={() => handleSortClick(index)}
+                >
+                  {sortType}
+                </li>
+              ))}
+            </ul>
+          </li>
         </ul>
       </div>
       {products.length > 0 &&

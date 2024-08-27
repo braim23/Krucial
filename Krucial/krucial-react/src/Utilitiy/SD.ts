@@ -18,3 +18,10 @@ export enum SD_Categories {
   MOUSEPAD = "Mousepad",
   OTHER = "Other",
 }
+
+export enum SD_SortTypes {
+  PRICE_LOW_TO_HIGH = "Price Low - High",
+  PRICE_HIGH_TO_LOW = "Price High - Low",
+  NAME_A_Z = "Name A - Z",
+  NAME_Z_A = "Name Z - A",
+}
