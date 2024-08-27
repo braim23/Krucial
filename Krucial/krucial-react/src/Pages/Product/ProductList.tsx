@@ -7,6 +7,7 @@ import { MainLoader } from "../../Components/Page/Common";
 import productModel from "../../Interfaces/productModel";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { withAdminAuth } from "../../HOC";
 
 function ProductList() {
   const [deleteProduct] = useDeleteProductMutation();
@@ -90,4 +91,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default withAdminAuth(ProductList);

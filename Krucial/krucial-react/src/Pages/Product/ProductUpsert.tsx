@@ -8,6 +8,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { MainLoader } from "../../Components/Page/Common";
 import { SD_Categories } from "../../Utilitiy/SD";
+import { withAdminAuth } from "../../HOC";
 
 const Categories = [
   SD_Categories.KEYBOARD,
@@ -159,7 +160,11 @@ function ProductUpsert() {
             <select
               className="form-control mt-3 form-select"
               name="category"
-              value={Categories.includes(productInputs.category) ? productInputs.category : ""}
+              value={
+                Categories.includes(productInputs.category)
+                  ? productInputs.category
+                  : ""
+              }
               onChange={handleProductInput}
             >
               <option value="" disabled>
@@ -217,4 +222,4 @@ function ProductUpsert() {
   );
 }
 
-export default ProductUpsert;
+export default withAdminAuth(ProductUpsert);

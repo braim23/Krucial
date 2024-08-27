@@ -3,6 +3,7 @@ using Krucial_API.Models;
 using Krucial_API.Models.Dto;
 using Krucial_API.Services;
 using Krucial_API.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -53,6 +54,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles =SD.Role_Admin)]
     public async Task<ActionResult<ApiResponse>> CreateProduct([FromForm] ProductCreateDTO productCreateDTO)
     {
         try
