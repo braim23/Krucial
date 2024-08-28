@@ -5,15 +5,7 @@ import { RootState } from "../../Storage/Redux/store";
 import { useGetAllOrdersQuery } from "../../Apis/orderApi";
 import OrderList from "../../Components/Page/Order/OrderList";
 import { MainLoader } from "../../Components/Page/Common";
-import { SD_Status } from "../../Utilitiy/SD";
 
-const filterOptions = [
-  "All",
-  SD_Status.CONFIRMED,
-  SD_Status.BEING_COOKED,
-  SD_Status.READY_FOR_PICKUP,
-  SD_Status.CANCELLED,
-];
 
 function MyOrder() {
   const userId = useSelector((state: RootState) => state.authStore.id);

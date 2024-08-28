@@ -1,13 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { withAdminAuth, withAuth } from "../../HOC";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Storage/Redux/store";
 import { useGetAllOrdersQuery } from "../../Apis/orderApi";
 import OrderList from "../../Components/Page/Order/OrderList";
 import { MainLoader } from "../../Components/Page/Common";
+import { inputHelper } from "../../Helper";
+import { SD_Status } from "../../Utilitiy/SD";
+import orderHeaderModel from "../../Interfaces/orderHeader";
+
+const filterOptions = [
+  "All",
+  SD_Status.CONFIRMED,
+  SD_Status.BEING_COOKED,
+  SD_Status.READY_FOR_PICKUP,
+  SD_Status.CANCELLED,
+];
 
 function AllOrders() {
   const { data, isLoading } = useGetAllOrdersQuery("");
+  const [orderData, setOrderData] = useState([]);
+  const [filters, setFilters] = useState({ searchString: "", status: "" });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const tempValue = inputHelper(e, filters);
+    setFilters(tempValue);
+  };
+
+  const handleFilters = () => {
+    const tempData = data.result.filter((orderData: orderHeaderModel) => {
+      if (
+        (orderData.pickupName &&
+          orderData.pickupName.includes(filters.searchString)) ||
+        (orderData.pickupEmail &&
+          orderData.pickupEmail.includes(filters.searchString)) ||
+        (orderData.pickupPhoneNumber &&
+          orderData.pickupPhoneNumber.includes(filters.searchString))
+      ) {
+        return orderData;
+      }
+    });
+
+    const finalArray = tempData.filter((orderData: orderHeaderModel) =>
+      filters.status !== "" ? orderData.status === filters.status : orderData
+    );
+
+    setOrderData(finalArray);
+  };
+
+  useEffect(() => {
+    if (data) {
+      setOrderData(data.result);
+    }
+  }, [data]);
 
   return (
     <>
@@ -21,14 +68,29 @@ function AllOrders() {
                 type="text"
                 className="form-control mx-2"
                 placeholder="Search name, Email or Phone Number"
+                name="searchString"
+                onChange={handleChange}
               />
-              <select className="form-select w-50 mx-2">
-                <option value="All">All</option>
+              <select
+                className="form-select w-50 mx-2"
+                name="status"
+                onChange={handleChange}
+              >
+                {filterOptions.map((item, index) => (
+                  <option key={index} value={item === "All" ? "" : item}>
+                    {item}
+                  </option>
+                ))}
               </select>
-              <button className="btn btn-outline-success">Filter</button>
+              <button
+                className="btn btn-outline-success"
+                onClick={handleFilters}
+              >
+                Filter
+              </button>
             </div>
           </div>
-          <OrderList isLoading={isLoading} orderData={data.result} />
+          <OrderList isLoading={isLoading} orderData={orderData} />
         </>
       )}
     </>
