@@ -6,10 +6,9 @@ import { useGetAllOrdersQuery } from "../../Apis/orderApi";
 import OrderList from "../../Components/Page/Order/OrderList";
 import { MainLoader } from "../../Components/Page/Common";
 
-
 function MyOrder() {
   const userId = useSelector((state: RootState) => state.authStore.id);
-  const { data, isLoading } = useGetAllOrdersQuery({userId});
+  const { data, isLoading } = useGetAllOrdersQuery({ userId });
 
   return (
     <>
@@ -19,7 +18,10 @@ function MyOrder() {
           <div className="d-flex align-items-center justify-content-between mx-5 mt-5">
             <h1 className="text-success">My Orders</h1>
           </div>
-          <OrderList isLoading={isLoading} orderData={data.result} />
+          <OrderList
+            isLoading={isLoading}
+            orderData={data?.apiResponse.result}
+          />
         </>
       )}
     </>
