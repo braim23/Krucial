@@ -67,11 +67,12 @@ function ProductUpsert() {
         return e === imgType;
       });
 
-      if (file.size > 1000 * 1024) {
-        setImageToStore("");
-        toastNotify("File must be less than 1 MB", "error");
-        return;
-      } else if (isImageTypeValid.length === 0) {
+      // if (file.size > 1000 * 1024) {
+      //   setImageToStore("");
+      //   toastNotify("File must be less than 1 MB", "error");
+      //   return;
+      // } else 
+      if (isImageTypeValid.length === 0) {
         setImageToStore("");
         toastNotify("File type must be jpg, png or jpeg", "error");
         return;

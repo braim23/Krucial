@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { emptyUserState, setLoggedInUser } from "../../Storage/Redux/authSlice";
 import { SD_Roles } from "../../Utilitiy/SD";
 
-let logo = require("../../Assets/Images/mango.png");
+let logo = require("../../Assets/Images/keyboard.png");
 
 function Header() {
   const dispatch = useDispatch();
